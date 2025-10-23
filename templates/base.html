@@ -1,0 +1,672 @@
+{% extends 'layouts/default.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORSA - Scholarships & Learning Opportunities</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(26, 54, 93, 0.8), rgba(26, 54, 93, 0.8)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4fd1c5;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #38b2ac;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 209, 197, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #1a365d;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .section-title p {
+            color: #718096;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #4fd1c5;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1a365d;
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            color: #718096;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Opportunities Section */
+        .opportunities {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .opportunity-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tab {
+            padding: 1rem 2.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #718096;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+        
+        .tab.active {
+            color: #1a365d;
+            background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 209, 197, 0.3);
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #f7fafc;
+            color: #1a365d;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .opportunity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .opportunity-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .opportunity-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .opportunity-img {
+            height: 200px;
+            background-color: #e2e8f0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .opportunity-content {
+            padding: 1.8rem;
+        }
+        
+        .opportunity-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .opportunity-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #1a365d;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .opportunity-card p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .btn-small {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Consulting Section */
+        .consulting {
+            padding: 5rem 0;
+            background: white;
+        }
+        
+        .consulting-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .consulting-text {
+            flex: 1;
+        }
+        
+        .consulting-image {
+            flex: 1;
+            height: 450px;
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            background-image: url('https://images.unsplash.com/photo-1580894894513-541e068a3e2b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .consulting-text h2 {
+            font-size: 2.5rem;
+            color: #1a365d;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .consulting-text p {
+            color: #718096;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+        
+        .benefits-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            font-size: 1.05rem;
+            color: #4a5568;
+        }
+        
+        .benefits-list li:before {
+            content: "✓";
+            color: #4fd1c5;
+            font-weight: bold;
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.95) 0%, rgba(26, 54, 93, 0.85) 100%), 
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+        
+        .cta .btn {
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #4fd1c5;
+            font-weight: 600;
+        }
+        
+        .footer-column p {
+            color: #cbd5e0;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.3rem 0;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #4fd1c5;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .consulting-content {
+                flex-direction: column;
+            }
+            
+            .consulting-image {
+                width: 100%;
+                height: 300px;
+            }
+            
+            .opportunity-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .tab {
+                padding: 1rem;
+                text-align: center;
+            }
+            
+            .cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Unlock Your Educational Potential</h1>
+            <p>Discover scholarships, free courses, and expert consulting services to help you achieve your academic and career goals.</p>
+            <div class="hero-btns">
+                <a href="{{ url_for('scholarships') }}" class="btn">Find Scholarships</a>
+                <a href="{{ url_for('courses') }}" class="btn btn-secondary">Browse Courses</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>How We Help You Succeed</h2>
+                <p>Our platform connects students with opportunities that can transform their educational journey</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Scholarship Database</h3>
+                    <p>Access thousands of scholarships from around the world, filtered by your specific criteria and qualifications.</p>
+                    <a href="{{ url_for('scholarships') }}" class="btn btn-small">Explore Scholarships</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Free Courses</h3>
+                    <p>Discover high-quality free courses from top institutions to enhance your skills and knowledge.</p>
+                    <a href="{{ url_for('courses') }}" class="btn btn-small">Browse Courses</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Expert Consulting</h3>
+                    <p>Get personalized guidance from education experts to navigate your academic and career path.</p>
+                    <a href="{{ url_for('consulting') }}" class="btn btn-small">Get Consulting</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Opportunities Section -->
+    <section class="opportunities">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest Opportunities</h2>
+                <p>Browse through our curated selection of scholarships and courses</p>
+            </div>
+            
+            <div class="opportunity-tabs">
+                <div class="tab active" data-tab="scholarships">Scholarships</div>
+                <div class="tab" data-tab="courses">Free Courses</div>
+            </div>
+            
+            <!-- Scholarships Tab Content -->
+            <div class="tab-content active" id="scholarships">
+                <div class="opportunity-grid">
+                    {% if latest_scholarships %}
+                        {% for scholarship in latest_scholarships %}
+                        <div class="opportunity-card">
+                            <div class="opportunity-img" style="background-image: url('{% if scholarship[9] %}{{ scholarship[9] }}{% else %}https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80{% endif %}');"></div>
+                            <div class="opportunity-content">
+                                <span class="opportunity-tag">Scholarship</span>
+                                <h3>{{ scholarship[1] }}</h3>
+                                <p>{{ scholarship[2][:120] }}{% if scholarship[2]|length > 120 %}...{% endif %}</p>
+                                <a href="{% if scholarship[4] %}{{ scholarship[4] }}{% else %}{{ url_for('scholarships') }}{% endif %}" class="btn btn-small" target="_blank">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-data-message">
+                            <p>No scholarships available at the moment. Please check back later.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Courses Tab Content -->
+            <div class="tab-content" id="courses">
+                <div class="opportunity-grid">
+                    {% if latest_courses %}
+                        {% for course in latest_courses %}
+                        <div class="opportunity-card">
+                            <div class="opportunity-img" style="background-image: url('{% if course[5] %}{{ course[5] }}{% else %}https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80{% endif %}');"></div>
+                            <div class="opportunity-content">
+                                <span class="opportunity-tag">Course</span>
+                                <h3>{{ course[1] }}</h3>
+                                <p>{{ course[2][:120] }}{% if course[2]|length > 120 %}...{% endif %}</p>
+                                <a href="{% if course[4] %}{{ course[4] }}{% else %}{{ url_for('courses') }}{% endif %}" class="btn btn-small" target="_blank">
+                                    View Course
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-data-message">
+                            <p>No courses available at the moment. Please check back later.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consulting Section -->
+    <section class="consulting">
+        <div class="container">
+            <div class="section-title">
+                <h2>Expert Educational Consulting</h2>
+                <p>Get personalized guidance to navigate your educational journey</p>
+            </div>
+            <div class="consulting-content">
+                <div class="consulting-text">
+                    <h2>Your Path to Success Starts Here</h2>
+                    <p>Our team of experienced education consultants provides personalized guidance to help you make informed decisions about your academic and career path.</p>
+                    <ul class="benefits-list">
+                        <li>Personalized scholarship matching and application assistance</li>
+                        <li>Course and program selection guidance</li>
+                        <li>Career path planning and development</li>
+                        <li>Application essay review and editing</li>
+                        <li>Interview preparation and mock sessions</li>
+                    </ul>
+                    <a href="{{ url_for('consulting') }}" class="btn">Book a Consultation</a>
+                </div>
+                <div class="consulting-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Educational Journey?</h2>
+            <p>Join thousands of students who have found scholarships, free courses, and expert guidance through our platform.</p>
+            {% if 'email' not in session %}
+                <a href="{{ url_for('register') }}" class="btn">Get Started Today</a>
+            {% else %}
+                <a href="{{ url_for('scholarships') }}" class="btn">Explore Opportunities</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FORSA</h3>
+                    <p>Connecting students with educational opportunities worldwide. Your gateway to scholarships, courses, and expert guidance.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('base') }}">Home</a></li>
+                        <li><a href="{{ url_for('scholarships') }}">Scholarships</a></li>
+                        <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                        <li><a href="{{ url_for('consulting') }}">Consulting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 FORSA. All rights reserved. | Empowering students worldwide</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

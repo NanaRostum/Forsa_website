@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  body {
+    background: #f2f6fa;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .dashboard-container {
+    max-width: 1000px;
+    margin: 50px auto;
+  }
+
+  .card {
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    padding: 25px;
+    transition: transform 0.2s;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  h4 {
+    color: #007bff;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+</style>
+
+<div class="dashboard-container">
+  <h2 class="text-center mb-4">📊 Admin Dashboard</h2>
+
+  <div class="stats">
+    <div class="card">
+      <h4>Total Users</h4>
+      <p class="fs-3 fw-bold text-success">{{ total_users }}</p>
+    </div>
+
+    <div class="card">
+      <h4>Total Courses</h4>
+      <p class="fs-3 fw-bold text-info">{{ total_courses }}</p>
+    </div>
+
+    <div class="card">
+      <h4>Total Scholarships</h4>
+      <p class="fs-3 fw-bold text-primary">{{ total_scholarships }}</p>
+    </div>
+
+    <div class="card">
+      <h4>Consulting Requests</h4>
+      <p class="fs-3 fw-bold text-warning">{{ total_consults }}</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+  }
+
+  .register-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .register-container input,
+  .register-container button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+
+<div class="register-wrapper">
+  <div class="register-container">
+    <h2>Register</h2>
+    <form method="POST">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+
+    {% if messaggio %}
+      <div class="message">{{ messaggio }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

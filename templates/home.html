@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .home-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: #d7e1ec;
+    font-family: Arial, sans-serif;
+  }
+
+  .home-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .btn-logout {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+  }
+
+  .btn-logout:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="home-wrapper">
+  <div class="home-container">
+    <h2>Ciao {{ email }} 👋</h2>
+    <p>Benvenuto nella tua area privata!</p>
+    <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+  </div>
+</div>
+
+{% endblock %}

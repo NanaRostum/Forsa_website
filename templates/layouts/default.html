@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORSA</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .card-img-top {
+        height: 180px;             /* Resize image height */
+        object-fit: cover;         /* Crop image neatly */
+      }
+      .card {
+        transition: transform 0.2s;
+      }
+      .card:hover {
+        transform: scale(1.03);    /* small hover effect */
+      }
+      
+      /* Improved header spacing */
+      .nav-spacing {
+        gap: 1.5rem !important;
+      }
+      
+      .nav-item {
+        padding: 0.5rem 0;
+      }
+      
+      .nav-link {
+        padding: 0.5rem 1rem !important;
+        border-radius: 0.375rem;
+        transition: all 0.3s ease;
+      }
+      
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+    </style>
+</head>
+
+<body>
+    <!-- Improved Navigation -->
+    <nav class="relative bg-gray-800">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative flex h-20 items-center justify-between">
+          <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <!-- Mobile menu button-->
+            <button type="button" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+              <span class="absolute -inset-0.5"></span>
+              <span class="sr-only">Open main menu</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
+                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
+                <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="flex shrink-0 items-center">
+              <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="FORSA" class="h-10 w-auto" />
+              <span class="ml-3 text-xl font-bold text-white">FORSA</span>
+            </div>
+            <div class="hidden sm:ml-8 sm:block">
+              <div class="flex space-x-6 nav-spacing">
+                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+
+                <a href="{{url_for('base')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all duration-300">About us</a>
+                <a href="{{url_for('courses')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all duration-300">Courses</a>
+                <a href="{{url_for('scholarships')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all duration-300">Scholarships</a>
+                <a href="{{url_for('consulting')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all duration-300">Consulting</a>
+                
+                {% if 'email' in session %}
+                  <a href="{{url_for('home')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200 transition-all duration-300">My Account</a>
+                  <a href="{{url_for('logout')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-red-300 hover:bg-white/5 hover:text-red-200 transition-all duration-300">Logout</a>
+                {% else %}
+                  <a href="{{url_for('login')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-blue-300 hover:bg-white/5 hover:text-blue-200 transition-all duration-300">Login/Sign in</a>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <el-disclosure id="mobile-menu" hidden class="block sm:hidden">
+        <div class="space-y-2 px-4 pt-2 pb-4">
+          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+
+          <a href="{{url_for('base')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">About us</a>
+          <a href="{{url_for('courses')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Courses</a>
+          <a href="{{url_for('scholarships')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Scholarships</a>
+          <a href="{{url_for('consulting')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Consulting</a>
+          
+          {% if 'email' in session %}
+            <a href="{{url_for('home')}}" class="block rounded-md px-3 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200">My Account</a>
+            <a href="{{url_for('logout')}}" class="block rounded-md px-3 py-3 text-base font-medium text-red-300 hover:bg-white/5 hover:text-red-200">Logout</a>
+          {% else %}
+            <a href="{{url_for('login')}}" class="block rounded-md px-3 py-3 text-base font-medium text-blue-300 hover:bg-white/5 hover:text-blue-200">Login/Sign in</a>
+          {% endif %}
+        </div>
+      </el-disclosure>
+    </nav>
+
+{%block content%}
+{%endblock%}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
