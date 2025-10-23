@@ -7,7 +7,7 @@ app.secret_key = 'nananananan'
 
 @app.route('/')
 def index():
-    return  redirect(url_for('base'))
+    return redirect(url_for('base'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
