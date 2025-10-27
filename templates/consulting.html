@@ -1,84 +1,235 @@
-{% extends "base.html" %}
+{% extends "layouts/default.html" %}
 {% block content %}
-
-<!-- Include Bootstrap CSS (if not already in base.html) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
   .consulting-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 80vh;
-    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 0;
   }
 
   .consulting-container {
     background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    width: 100%;
-    max-width: 450px;
+    padding: 4rem 3rem;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .consulting-header {
     text-align: center;
+    margin-bottom: 3rem;
   }
 
-  h2 {
-    color: #007bff;
-    margin-bottom: 15px;
+  .consulting-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .consulting-header h2 {
+    color: #1a365d;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .consulting-header p {
+    color: #718096;
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .form-group {
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: #1a365d;
     font-weight: 600;
+    font-size: 1.1rem;
   }
 
-  p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 25px;
+  .form-control {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    font-family: inherit;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #4fd1c5;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.1);
+    transform: translateY(-2px);
+  }
+
+  textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
   }
 
   .btn-primary {
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 500;
+    padding: 1.2rem 2rem;
+    background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(79, 209, 197, 0.3);
+  }
+
+  .login-prompt {
+    text-align: center;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 15px;
+    border: 2px dashed #cbd5e0;
+  }
+
+  .login-prompt .consulting-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .login-prompt h3 {
+    color: #1a365d;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .login-prompt p {
+    color: #718096;
+    margin-bottom: 1.5rem;
+  }
+
+  .message {
+    background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+    color: #276749;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+    font-weight: 600;
+    text-align: center;
+    border-left: 5px solid #68d391;
+    font-size: 1.1rem;
+  }
+
+  .benefits-list {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+  }
+
+  .benefits-list h4 {
+    color: #1a365d;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  .benefits-list ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .benefits-list li {
+    padding: 0.5rem 0;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+  }
+
+  .benefits-list li:before {
+    content: "✓";
+    color: #4fd1c5;
+    font-weight: bold;
+    margin-right: 1rem;
+    font-size: 1.2rem;
   }
 </style>
 
 <div class="consulting-wrapper">
   <div class="consulting-container">
-    <h2>Consulting Service</h2>
-    <p>We offer personalized help to find the best course, scholarship, or job for you.</p>
+    <div class="consulting-header">
+      <div class="consulting-icon">💼</div>
+      <h2>Expert Consulting</h2>
+      <p>Get personalized guidance from education experts to navigate your academic and career journey.</p>
+    </div>
+
+    {% if messaggio %}
+      <div class="message">{{ messaggio }}</div>
+    {% endif %}
 
     {% if "email" in session %}
-    <form method="POST">
-      <div class="mb-3 text-start">
-        <label class="form-label fw-semibold">Topic</label>
-        <input type="text" name="topic" class="form-control" required>
+      <div class="benefits-list">
+        <h4>How we can help you:</h4>
+        <ul>
+          <li>Personalized scholarship matching</li>
+          <li>Application essay review</li>
+          <li>Career path planning</li>
+          <li>Interview preparation</li>
+          <li>Course selection guidance</li>
+        </ul>
       </div>
-      <div class="mb-3 text-start">
-        <label class="form-label fw-semibold">Details</label>
-        <textarea name="details" class="form-control" rows="4" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Send Request</button>
-    </form>
+
+      <form method="POST">
+        <div class="form-group">
+          <label class="form-label">Consulting Topic</label>
+          <input type="text" name="topic" class="form-control" placeholder="e.g., Scholarship Application, Career Advice, Course Selection" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Details & Requirements</label>
+          <textarea name="details" class="form-control" placeholder="Please describe your situation, goals, and any specific help you need..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Submit Consulting Request</button>
+      </form>
     {% else %}
-      <p class="text-danger fw-bold">{{ messaggio }}</p>
-      <a href="{{ url_for('login') }}" class="btn btn-primary mt-2">Login to access service</a>
+      <div class="login-prompt">
+        <div class="consulting-icon">🔒</div>
+        <h3>Authentication Required</h3>
+        <p>{{ messaggio }}</p>
+        <a href="{{ url_for('login') }}" class="btn-primary">Login to Access Service</a>
+      </div>
     {% endif %}
   </div>
 </div>
 
+<!-- Bootstrap Modal for Messages -->
 <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
+      <div class="modal-header" style="background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%); color: white;">
         <h5 class="modal-title" id="messageModalLabel">Notification</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body text-center" style="padding: 2rem; font-size: 1.1rem;">
         {{ messaggio }}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.8rem 2rem;">OK</button>
       </div>
     </div>
   </div>

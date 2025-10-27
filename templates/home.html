@@ -1,46 +1,136 @@
-{% extends "base.html" %}
+{% extends "layouts/default.html" %}
 {% block content %}
 
 <style>
   .home-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 80vh;
-    background: #d7e1ec;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 0;
   }
 
   .home-container {
     background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 4rem 3rem;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
     text-align: center;
-    max-width: 400px;
-    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .welcome-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .home-container h2 {
+    color: #1a365d;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .user-email {
+    color: #4fd1c5;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .home-subtitle {
+    color: #718096;
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+
+  .action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+
+  .action-card {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #1a365d;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-color: #4fd1c5;
+  }
+
+  .action-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .action-card span {
+    font-weight: 600;
+    font-size: 0.95rem;
   }
 
   .btn-logout {
-    margin-top: 20px;
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background-color: #007bff;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
     color: white;
     text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
   }
 
   .btn-logout:hover {
-    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(245, 101, 101, 0.3);
   }
 </style>
 
 <div class="home-wrapper">
   <div class="home-container">
-    <h2>Ciao {{ email }} 👋</h2>
-    <p>Benvenuto nella tua area privata!</p>
-    <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+    <div class="welcome-icon">🎉</div>
+    <h2>Welcome to FORSA</h2>
+    <div class="user-email">{{ email }}</div>
+    <p class="home-subtitle">Your gateway to educational opportunities and career growth</p>
+
+    <div class="action-grid">
+      <a href="{{ url_for('scholarships') }}" class="action-card">
+        <span class="action-icon">🎓</span>
+        <span>Scholarships</span>
+      </a>
+      <a href="{{ url_for('courses') }}" class="action-card">
+        <span class="action-icon">📚</span>
+        <span>Courses</span>
+      </a>
+      <a href="{{ url_for('consulting') }}" class="action-card">
+        <span class="action-icon">💼</span>
+        <span>Consulting</span>
+      </a>
+      <a href="{{ url_for('base') }}" class="action-card">
+        <span class="action-icon">🏠</span>
+        <span>Home</span>
+      </a>
+    </div>
+
+    <a href="{{ url_for('logout') }}" class="btn-logout">
+      <span>🚪</span>
+      Logout
+    </a>
   </div>
 </div>
 
