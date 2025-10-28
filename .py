@@ -5,6 +5,20 @@ app = Flask(__name__)
 app.secret_key = 'nananananan'
 
 
+
+@app.route('/admin/users')
+def admin_users():
+    if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+        flash('Access denied: Admins only.')
+        return redirect(url_for('login'))
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name, cognome, email, password FROM users ORDER BY id DESC")
+    users = cursor.fetchall()
+    return render_template('admin_users.html', users=users)
+
+
+
+
 @app.route('/')
 def index():
     return redirect(url_for('base'))
@@ -73,9 +87,6 @@ def login():
     #         messaggio =session['messaggio']
     return render_template('login.html', messaggio=messaggio)
 
-
-
-
 @app.route('/home')
 def home():
     if 'email' not in session:
@@ -97,12 +108,14 @@ def courses():
     data = cursor.fetchall()
     return render_template('courses.html', courses=data)
 
+# 
 @app.route('/scholarships')
 def scholarships():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM scholarships")
     data_scholarship = cursor.fetchall()
     return render_template('scholarships.html', scholarships=data_scholarship)
+
 
 @app.route('/consulting', methods=['POST', "GET"])
 def consulting():
@@ -154,6 +167,79 @@ def dashboard():
                            )
 
 
+@app.route('/admin/add_course', methods=['GET', 'POST'])
+def add_course():
+    # admin-only
+    if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+        flash('Access denied: Admins only.')
+        return redirect(url_for('login'))
+
+    message = ''
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        category = request.form.get('category', '').strip()
+        link = request.form.get('link', '').strip()
+        image = request.form.get('image', '').strip()
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO courses (title, description, category, link, image, post_time) VALUES (%s, %s, %s, %s, %s, NOW())",
+                (title, description, category, link, image)
+            )
+            conn.commit()
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            message = f'Error adding course: {e}'
+            return render_template('admin_add_course.html', message=message)
+
+    return render_template('admin_add_course.html')
+
+
+@app.route('/admin/add_scholarship', methods=['GET', 'POST'])
+def add_scholarship():
+    # admin-only
+    if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+        flash('Access denied: Admins only.')
+        return redirect(url_for('login'))
+
+    message = ''
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        deadline = request.form.get('deadline', '').strip()
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO scholarships (title, description, deadline) VALUES (%s, %s, %s)",
+                           (title, description, deadline))
+            conn.commit()
+            message = 'Scholarship added successfully.'
+        except Exception as e:
+            message = f'Error adding scholarship: {e}'
+
+    return render_template('admin_add_scholarship.html', message=message)
+
+
+@app.route('/admin/consulting_requests')
+def consulting_requests():
+    # admin-only
+    if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+        flash('Access denied: Admins only.')
+        return redirect(url_for('login'))
+
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT * FROM consulting_requests ORDER BY id DESC")
+        requests = cursor.fetchall()
+    except Exception as e:
+        requests = []
+        flash(f'Error fetching consulting requests: {e}')
+
+    return render_template('admin_consults.html', requests=requests)
+
+
 @app.route('/base')
 def base():
     cursor = conn.cursor()
@@ -165,6 +251,49 @@ def base():
     return render_template('base.html', 
                            latest_scholarships = latest_scholarships,
                            latest_courses=latest_courses)
+
+
+# @app.route('/admin/courses')
+# def admin_courses():
+#     if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+#         flash('Access denied: Admins only.')
+#         return redirect(url_for('login'))
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT id, title, description, category, link, image, post_time FROM courses ORDER BY post_time DESC")
+#     courses = cursor.fetchall()
+#     return render_template('admin_courses.html', courses=courses)
+
+# @app.route('/admin/edit_course/<int:course_id>', methods=['GET', 'POST'])
+# def edit_course(course_id):
+#     if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+#         flash('Access denied: Admins only.')
+#         return redirect(url_for('login'))
+#     cursor = conn.cursor()
+#     if request.method == 'POST':
+#         title = request.form.get('title', '').strip()
+#         description = request.form.get('description', '').strip()
+#         category = request.form.get('category', '').strip()
+#         link = request.form.get('link', '').strip()
+#         image = request.form.get('image', '').strip()
+#         cursor.execute("UPDATE courses SET title=%s, description=%s, category=%s, link=%s, image=%s WHERE id=%s",
+#                        (title, description, category, link, image, course_id))
+#         conn.commit()
+#         flash('Course updated.')
+#         return redirect(url_for('admin_courses'))
+#     cursor.execute("SELECT id, title, description, category, link, image FROM courses WHERE id=%s", (course_id,))
+#     course = cursor.fetchone()
+#     return render_template('admin_edit_course.html', course=course)
+
+# @app.route('/admin/delete_course/<int:course_id>', methods=['POST'])
+# def delete_course(course_id):
+#     if 'email' not in session or session.get('email') != 'forsadmin@gmail.com':
+#         flash('Access denied: Admins only.')
+#         return redirect(url_for('login'))
+#     cursor = conn.cursor()
+#     cursor.execute("DELETE FROM courses WHERE id=%s", (course_id,))
+#     conn.commit()
+#     flash('Course deleted.')
+#     return redirect(url_for('admin_courses'))
 
 if __name__ == '__main__':
     app.run(debug=True)

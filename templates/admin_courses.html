@@ -1,0 +1,48 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+<style>
+  .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); margin:2rem auto; }
+  .admin-table th, .admin-table td { padding:1rem; border-bottom:1px solid #f3f3f3; text-align:left; }
+  .admin-table th { background:#f7fafc; color:#1a365d; font-weight:600; }
+  .admin-table tr:last-child td { border-bottom:none; }
+  .course-img { width:80px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #eee; }
+  .admin-actions { display:flex; gap:1rem; }
+  .admin-btn { padding:.5rem 1rem; border-radius:6px; border:none; background:#4299e1; color:#fff; font-weight:600; cursor:pointer; transition:.2s; }
+  .admin-btn.delete { background:#e53e3e; }
+  .admin-btn.edit { background:#48bb78; }
+  .admin-btn:hover { opacity:.85; }
+</style>
+<h2 style="margin:2rem 0;text-align:center;">Manage Courses</h2>
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Title</th>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Link</th>
+      <th>Post Time</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in courses %}
+    <tr>
+      <td>{% if c[5] %}<img src="{{ c[5] }}" class="course-img" alt="Course image" />{% else %}<span style="color:#aaa;">No image</span>{% endif %}</td>
+      <td>{{ c[1] }}</td>
+      <td>{{ c[3] }}</td>
+      <td>{{ c[2] }}</td>
+      <td>{% if c[4] %}<a href="{{ c[4] }}" target="_blank">Link</a>{% endif %}</td>
+      <td>{{ c[6] }}</td>
+      <td class="admin-actions">
+        <a href="{{ url_for('edit_course', course_id=c[0]) }}" class="admin-btn edit">Edit</a>
+        <form method="post" action="{{ url_for('delete_course', course_id=c[0]) }}" style="display:inline;">
+          <button type="submit" class="admin-btn delete" onclick="return confirm('Delete this course?');">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ url_for('add_course') }}" class="admin-btn" style="margin:2rem auto;display:block;width:max-content;">Add New Course</a>
+{% endblock %}

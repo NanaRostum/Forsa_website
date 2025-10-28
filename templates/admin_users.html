@@ -1,0 +1,32 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+<style>
+  .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.08); margin:2rem auto; }
+  .admin-table th, .admin-table td { padding:1rem; border-bottom:1px solid #f3f3f3; text-align:left; }
+  .admin-table th { background:#f7fafc; color:#1a365d; font-weight:600; }
+  .admin-table tr:last-child td { border-bottom:none; }
+</style>
+<h2 style="margin:2rem 0;text-align:center;">User List</h2>
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Cognome</th>
+      <th>Email</th>
+      <th>Password</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u[0] }}</td>
+      <td>{{ u[1] }}</td>
+      <td>{{ u[2] }}</td>
+      <td>{{ u[3] }}</td>
+      <td>{{ u[4] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

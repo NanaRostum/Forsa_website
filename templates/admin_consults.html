@@ -1,0 +1,30 @@
+{% extends "layouts/default.html" %}
+{% block content %}
+
+<h2 style="margin:2rem 0; text-align:center;">Consulting Requests</h2>
+<div style="max-width:900px;margin:0 auto;background:#fff;padding:1.5rem;border-radius:8px;">
+  {% if requests|length == 0 %}
+    <p>No consulting requests yet.</p>
+  {% else %}
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding:.5rem;border-bottom:1px solid #eee;">User Email</th>
+          <th style="text-align:left;padding:.5rem;border-bottom:1px solid #eee;">Topic</th>
+          <th style="text-align:left;padding:.5rem;border-bottom:1px solid #eee;">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in requests %}
+          <tr>
+            <td style="padding:.5rem;border-bottom:1px solid #f6f6f6;">{{ r[1] }}</td>
+            <td style="padding:.5rem;border-bottom:1px solid #f6f6f6;">{{ r[2] }}</td>
+            <td style="padding:.5rem;border-bottom:1px solid #f6f6f6;">{{ r[3] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</div>
+
+{% endblock %}

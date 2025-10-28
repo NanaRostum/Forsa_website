@@ -30,22 +30,24 @@
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     {% for scholarship in scholarships %}
     <div class="col">
-      <div class="card h-100 shadow-sm">
-        {% if scholarship[9] %}
-        <img src="{{ scholarship[9] }}" class="card-img-top" alt="Scholarship image">
-        {% endif %}
-        <div class="card-body d-flex flex-column justify-content-between">
-          <div>
-            <h5 class="card-title">{{ scholarship[1] }}</h5>
-            <p class="card-text">{{ scholarship[2][:120] }}...</p>
+      <a href="{{ scholarship[4] }}" target="_blank" style="text-decoration:none;color:inherit;">
+        <div class="card h-100 shadow-sm">
+          {% if scholarship[9] %}
+          <img src="{{ scholarship[9] }}" class="card-img-top" alt="Scholarship image">
+          {% endif %}
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="card-title">{{ scholarship[1] }}</h5>
+              <p class="card-text">{{ scholarship[2][:120] }}...</p>
+            </div>
+            <div class="mt-3 text-muted post-date">
+            </div>
           </div>
-          <div class="mt-3 text-muted post-date">
+          <div class="card-footer bg-transparent border-0 text-center">
+            <span class="btn btn-primary btn-sm">View Scholarship</span>
           </div>
         </div>
-        <div class="card-footer bg-transparent border-0 text-center">
-          <a href="{{ scholarship[4] }}" target="_blank" class="btn btn-primary btn-sm">View Scholarship</a>
-        </div>
-      </div>
+      </a>
     </div>
     {% endfor %}
   </div>

@@ -75,7 +75,11 @@
                 <a href="{{url_for('consulting')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-all duration-300">Consulting</a>
                 
                 {% if 'email' in session %}
-                  <a href="{{url_for('home')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200 transition-all duration-300">My Account</a>
+                  {% if session.get('email') == 'forsadmin@gmail.com' %}
+                    <a href="{{url_for('dashboard')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200 transition-all duration-300">My Account</a>
+                  {% else %}
+                    <a href="{{url_for('home')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200 transition-all duration-300">My Account</a>
+                  {% endif %}
                   <a href="{{url_for('logout')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-red-300 hover:bg-white/5 hover:text-red-200 transition-all duration-300">Logout</a>
                 {% else %}
                   <a href="{{url_for('login')}}" class="nav-item rounded-md px-4 py-3 text-base font-medium text-blue-300 hover:bg-white/5 hover:text-blue-200 transition-all duration-300">Login/Sign in</a>
@@ -94,10 +98,14 @@
           <a href="{{url_for('base')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">About us</a>
           <a href="{{url_for('courses')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Courses</a>
           <a href="{{url_for('scholarships')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Scholarships</a>
-          <a href="{{url_for('consulting')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Consulting</a>
+          <a href="{{url_for('consulting_requests')}}" class="block rounded-md px-3 py-3 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Consulting</a>
           
           {% if 'email' in session %}
-            <a href="{{url_for('home')}}" class="block rounded-md px-3 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200">My Account</a>
+            {% if session.get('email') == 'forsadmin@gmail.com' %}
+              <a href="{{url_for('dashboard')}}" class="block rounded-md px-3 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200">My Account</a>
+            {% else %}
+              <a href="{{url_for('home')}}" class="block rounded-md px-3 py-3 text-base font-medium text-green-300 hover:bg-white/5 hover:text-green-200">My Account</a>
+            {% endif %}
             <a href="{{url_for('logout')}}" class="block rounded-md px-3 py-3 text-base font-medium text-red-300 hover:bg-white/5 hover:text-red-200">Logout</a>
           {% else %}
             <a href="{{url_for('login')}}" class="block rounded-md px-3 py-3 text-base font-medium text-blue-300 hover:bg-white/5 hover:text-blue-200">Login/Sign in</a>
